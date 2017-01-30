@@ -15,6 +15,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".IntroActivity" />
+        <activity android:name=".MathIntroActivity" />
+        <activity android:name=".PhysicsIntroActivity" />
+        <activity android:name=".HeroIntroActivity" />
+        <activity android:name=".QuestionsActivity" />
+        <activity android:name=".AnswerActivity"></activity>
     </application>
 
 </manifest>
