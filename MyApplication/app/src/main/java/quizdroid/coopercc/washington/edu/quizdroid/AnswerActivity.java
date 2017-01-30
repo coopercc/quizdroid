@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -32,6 +33,7 @@ public class AnswerActivity extends Activity {
         final int correct = intent.getIntExtra("correct", 0);
         String[] answers = intent.getStringArrayExtra("answers");
         String answer = intent.getStringExtra("answer");
+        Log.i("AnswerActivity", answer + " and " + answers[question - 1]);
 
         TextView title = (TextView) findViewById(R.id.title);
         String newTitle = title.getText().toString() + question;
@@ -42,17 +44,21 @@ public class AnswerActivity extends Activity {
         for(int i = 0; i < 4; i++) {
             button = new RadioButton(this);
             button.setText(answers[i]);
+
             if (answers[i].equals(answer)) {
                 button.setBackgroundColor(Color.parseColor("#ffcc0000"));
-            } else if (i == question) {
+                button.setSelected(true);
+            }
+            if (i == question - 1) {
                 button.setBackgroundColor(Color.parseColor("#ff669900"));
             }
+            button.setEnabled(false);
             rg1.addView(button);
         }
 
         int newCorrect = correct;
         //do correct logic here, calculate correct/question
-        if (answer.equals(answers[question])) {
+        if (answer.equals(answers[question - 1])) {
             newCorrect++;
         }
         final int correctPut = newCorrect;
