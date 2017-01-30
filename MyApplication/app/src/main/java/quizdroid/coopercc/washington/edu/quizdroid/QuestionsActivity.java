@@ -32,11 +32,17 @@ public class QuestionsActivity extends Activity {
         String str = chr.toString() + question;
         title.setText(str);
 
+        final Button submit = (Button) findViewById(R.id.submit);
+        submit.setVisibility(View.INVISIBLE);
         grp = (RadioGroup) findViewById(R.id.questionGrp);
+        grp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                submit.setVisibility(View.VISIBLE);
+            }
+        });
 
 
-        //get button press action
-        Button submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
