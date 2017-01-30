@@ -11,13 +11,14 @@
     tools:context="quizdroid.coopercc.washington.edu.quizdroid.MathIntroActivity">
 
     <TextView
-        android:text="This will test your ability in basic math questions."
+        android:text="This will test your ability in basic math questions. There are 4 questions in this quiz."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        android:id="@+id/textView2" />
+        android:id="@+id/textView2"
+        android:textAlignment="center" />
 
     <TextView
         android:text="Math Quiz"

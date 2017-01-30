@@ -21,13 +21,14 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="This will test your ability in basic physics questions."
+        android:text="This will test your ability in basic physics questions. There are 4 questions in this quiz."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView4"
         android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="11dp" />
+        android:layout_marginTop="11dp"
+        android:textAlignment="center" />
 
     <Button
         android:text="Begin"

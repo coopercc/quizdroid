@@ -22,7 +22,7 @@
         android:textAlignment="center" />
 
     <TextView
-        android:text="This will test your knowledge of the marvel superhero universe."
+        android:text="This will test your knowledge of the marvel superhero universe. There are 4 questions in this quiz."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="19dp"
