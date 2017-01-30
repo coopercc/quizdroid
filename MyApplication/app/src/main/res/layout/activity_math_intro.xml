@@ -40,5 +40,6 @@
         android:fontFamily="sans-serif"
         android:textSize="20sp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        style="@android:style/Widget.Material.Button" />
 </RelativeLayout>
