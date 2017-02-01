@@ -16,11 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".IntroActivity" />
-        <activity android:name=".MathIntroActivity" />
-        <activity android:name=".PhysicsIntroActivity" />
-        <activity android:name=".HeroIntroActivity" />
-        <activity android:name=".QuestionsActivity" />
-        <activity android:name=".AnswerActivity"></activity>
+        <activity android:name=".QuizActivity"></activity>
     </application>
 
 </manifest>
