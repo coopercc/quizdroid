@@ -14,6 +14,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,44 +34,56 @@ public class AnswerFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_answer, container, false);
 
-        final int question = getArguments().getInt("question");
-        final int correct = getArguments().getInt("correct");
+        QuizApp app = (QuizApp)getActivity().getApplication();
+        final Topic topic = ((QuizActivity)getActivity()).getTopic();
+        Question question = topic.getCurrentQuestion();
+        final String questionTitle = question.getQuestion();
+        final int correctAnsPos = question.getCorrectAnswer(); //.get will work on this
+
         final String answer = getArguments().getString("answer");
-        final String[] answers = getArguments().getStringArray("answers");
+
 
         TextView title = (TextView) rootView.findViewById(R.id.title);
-        String newTitle = title.getText().toString() + question;
-        title.setText(newTitle);
+        title.setText(questionTitle);
+
+        List<String> answerList = question.getAnswers();
 
         RadioGroup rg1 = (RadioGroup) rootView.findViewById(R.id.answer_group);
         RadioButton button;
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < answerList.size(); i++) {
+            String tempAns = answerList.get(i);
             button = new RadioButton(getActivity());
-            button.setText(answers[i]);
+            button.setText(tempAns);
 
-            if (answers[i].equals(answer)) {
+            //if this equals the answer
+            if (tempAns.equals(answer)) {
                 button.setBackgroundColor(Color.parseColor("#ffcc0000"));
                 button.setSelected(true);
             }
-            if (i == question - 1) {
+            //if
+            if (i == correctAnsPos) {
                 button.setBackgroundColor(Color.parseColor("#ff669900"));
             }
             button.setEnabled(false);
             rg1.addView(button);
         }
 
-        int newCorrect = correct;
-        //do correct logic here, calculate correct/question
-        if (answer.equals(answers[question - 1])) {
-            newCorrect++;
-        }
-        final int correctPut = newCorrect;
 
+        //do correct logic here, calculate correct/question
+        if (answer.equals(answerList.get(correctAnsPos))) {
+            topic.incrementCorrect();
+        }
+
+        //
+        int correctCt = topic.getCorrectQuestions();
+        int currQ = topic.getCurrentQuestionInt();
         TextView correctView = (TextView) rootView.findViewById(R.id.correct_count);
-        correctView.setText(correctPut + " out of " + question + " correct");
+        correctView.setText(correctCt + " out of " + currQ + " correct");
+
+
 
         Button finish = (Button) rootView.findViewById(R.id.next);
-        if (question == 4) {
+        if (topic.isLastQuestion(currQ)) {
 
             finish.setText("Finish");
             finish.setOnClickListener(new View.OnClickListener() {
@@ -84,19 +98,10 @@ public class AnswerFragment extends Fragment {
             finish.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Intent intent = new Intent(AnswerActivity.this, QuestionsActivity.class);
-                    //intent.putExtra("question", question + 1);
-                    //intent.putExtra("correct", correctPut);
 
-                    //startActivity(intent);
+                    topic.incrementQuestion();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("question", question + 1);
-                    bundle.putInt("correct", correctPut);
-
-                   QuestionFragment questionFrag = new QuestionFragment();
-                    questionFrag.setArguments(bundle);
-
+                    QuestionFragment questionFrag = new QuestionFragment();
                     FragmentTransaction tx = getFragmentManager().beginTransaction();
                     tx.replace(R.id.fragment_placeholder, questionFrag);
                     tx.commit();

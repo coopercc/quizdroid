@@ -30,13 +30,19 @@ public class IntroFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_intro, container, false);
 
-        String subject = getArguments().getString("subject");
-        String desc = getArguments().getString("description");
+        int pos = getArguments().getInt("pos");
 
-        TextView title = (TextView) rootView.findViewById(R.id.introTitle);
+
+        QuizApp app = (QuizApp)getActivity().getApplication();
+        final Topic topic = ((QuizActivity)getActivity()).getTopic();
+        //get title and desc
+        String title = topic.getTitle();
+        String desc = topic.getDesc();
+
+        TextView titleView = (TextView) rootView.findViewById(R.id.introTitle);
         TextView descView = (TextView) rootView.findViewById(R.id.description);
 
-        title.setText(subject + " Quiz");
+        titleView.setText(title + " Quiz");
         descView.setText(desc);
 
         Button btn = (Button) rootView.findViewById(R.id.begin);
@@ -44,12 +50,10 @@ public class IntroFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("question", 1);
-                bundle.putInt("correct", 0);
                 QuestionFragment questionFrag = new QuestionFragment();
-                questionFrag.setArguments(bundle);
 
+                //reset the
+                topic.reset();
 
                 FragmentTransaction tx = getFragmentManager().beginTransaction();
                 tx.replace(R.id.fragment_placeholder, questionFrag);

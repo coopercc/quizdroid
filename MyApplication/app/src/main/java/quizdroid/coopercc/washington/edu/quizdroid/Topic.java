@@ -23,8 +23,8 @@ public class Topic {
         currentQuestion = 0;
     }
 
-    public int getCurrentQuestion() {
-        return currentQuestion;
+    public Question getCurrentQuestion() {
+        return questions.get(currentQuestion);
     }
 
     public void incrementQuestion() {
@@ -34,6 +34,17 @@ public class Topic {
     public int getCorrectQuestions() {
         return correctQuestions;
     }
+
+    public int getCurrentQuestionInt() {return currentQuestion; }
+
+    public boolean isLastQuestion(int tmp) {
+        if (tmp == (questions.size() - 1)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     public void incrementCorrect() {
         correctQuestions++;
@@ -50,6 +61,8 @@ public class Topic {
     public void setDesc(String d) {
         desc = d;
     }
+
+    public String getDesc() { return desc;}
 
     public void setQuestions(List<Question> qs) {
         for (Question q: qs) {

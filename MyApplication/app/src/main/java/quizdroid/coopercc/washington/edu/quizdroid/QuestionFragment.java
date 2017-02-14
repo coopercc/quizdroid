@@ -12,6 +12,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +22,6 @@ import android.widget.TextView;
 public class QuestionFragment extends Fragment {
 
     private RadioGroup grp;
-    private String[] answers = {"Answer 1", "Answer 2", "Answer 3", "Answer 4"};
 
     public QuestionFragment() {
         // Required empty public constructor
@@ -32,17 +34,34 @@ public class QuestionFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_question, container, false);
 
-        final int question = getArguments().getInt("question");
-        final int correct = getArguments().getInt("correct");
 
-        TextView title = (TextView) rootView.findViewById(R.id.title);
-        CharSequence chr = title.getText();
-        String str = chr.toString() + question;
-        title.setText(str);
+        QuizApp app = (QuizApp)getActivity().getApplication();
+        final Topic topic = ((QuizActivity)getActivity()).getTopic();
+        Question question = topic.getCurrentQuestion();
+
+        final String questionTitle = question.getQuestion();
+
+
+
+        TextView titleView = (TextView) rootView.findViewById(R.id.title);
+        titleView.setText(questionTitle);
+
+        List<String> answerList = question.getAnswers();
 
         final Button submit = (Button) rootView.findViewById(R.id.submit);
         submit.setVisibility(View.INVISIBLE);
         grp = (RadioGroup) rootView.findViewById(R.id.questionGrp);
+
+        RadioButton button;
+        for(int i = 0; i < answerList.size(); i++) {
+            String temp = answerList.get(i);
+            button = new RadioButton(getActivity());
+            button.setText(temp);
+            grp.addView(button);
+
+        }
+
+
         grp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -56,10 +75,8 @@ public class QuestionFragment extends Fragment {
                 int selectedId = grp.getCheckedRadioButtonId();
                 RadioButton answerButton = (RadioButton) rootView.findViewById(selectedId);
                 String answer = answerButton.getText().toString();
+
                 Bundle bundle = new Bundle();
-                bundle.putInt("question", question);
-                bundle.putInt("correct", correct);
-                bundle.putStringArray("answers", answers);
                 bundle.putString("answer", answer);
 
                 AnswerFragment answerFrag = new AnswerFragment();
