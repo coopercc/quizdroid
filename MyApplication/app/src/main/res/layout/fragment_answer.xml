@@ -11,37 +11,15 @@
         android:layout_height="match_parent">
 
         <RadioGroup
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:id="@+id/answer_group"
             android:layout_marginTop="29dp"
-            android:layout_marginLeft="40dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
         </RadioGroup>
-
-        <Button
-            android:text="Next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="77dp"
-            android:id="@+id/next"
-            android:background="@android:color/holo_blue_dark"
-            style="@android:style/Widget.Material.Button"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:text="placeholder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/correct_count"
-            android:layout_above="@+id/next"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="54dp"
-            android:textSize="20sp" />
 
         <TextView
             android:text="Answer for Question "
@@ -51,6 +29,26 @@
             android:id="@+id/title"
             android:textSize="25sp"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:text="placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/correct_count"
+            android:textSize="20sp"
+            android:layout_above="@+id/next"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:text="Next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="21dp"
+            android:id="@+id/next"
+            android:background="@android:color/holo_blue_dark"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>

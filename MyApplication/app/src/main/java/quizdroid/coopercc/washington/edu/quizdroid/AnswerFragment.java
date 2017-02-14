@@ -78,7 +78,7 @@ public class AnswerFragment extends Fragment {
         int correctCt = topic.getCorrectQuestions();
         int currQ = topic.getCurrentQuestionInt();
         TextView correctView = (TextView) rootView.findViewById(R.id.correct_count);
-        correctView.setText(correctCt + " out of " + currQ + " correct");
+        correctView.setText(correctCt + " out of " + (currQ + 1) + " correct");
 
 
 
