@@ -38,7 +38,7 @@ public class Question {
         return answers;
     }
 
-    //sets the correct answer position
+    //sets the correct answer positions
     public void setCorrectAnswer(int correct) {
         correctAnswer = correct;
     }
