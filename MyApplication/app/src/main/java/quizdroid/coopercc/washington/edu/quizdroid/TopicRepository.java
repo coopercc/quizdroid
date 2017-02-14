@@ -24,7 +24,7 @@ public class TopicRepository {
     }
 
     //Initializes the math topic with 4 questions
-    public void initializeMath() {
+    private void initializeMath() {
         Topic math = new Topic();
         math.setTitle("Math");
         math.setDesc("This will test your ability in basic math questions.");
@@ -45,7 +45,8 @@ public class TopicRepository {
         Topics.add(math);
     }
 
-    public void initializeScience() {
+    //initialized science topic with 4 questions
+    private void initializeScience() {
         Topic sci = new Topic();
         sci.setTitle("Science");
         sci.setDesc("This will test your ability in basic science questions.");
@@ -63,7 +64,8 @@ public class TopicRepository {
         Topics.add(sci);
     }
 
-    public void initializeMarvel() {
+    //initializes marvel topic with 4 questions
+    private void initializeMarvel() {
         Topic marvel = new Topic();
         marvel.setTitle("Marvel");
         marvel.setDesc("This will test your ability in basic Marvel Universe questions.");
@@ -71,7 +73,7 @@ public class TopicRepository {
         Question q1 = createQuestion("Which Super Hero Team Does Johnny Storm Belong To?",
                 "Ultimate Avengers", "The Justice League", "The Fantastic 4", "The Avengers", 2);
         Question q2 = createQuestion("Who founded the X men?", "Tony Stark",
-                "Professor Charles Xavier", "The X-Institute", "Erik Lensherr", 2);
+                "Professor Charles Xavier", "The X-Institute", "Erik Lensherr", 1);
         Question q3 = createQuestion("How did Peter Parker become Spiderman?",
                 "Bit by a radioactive spider", "Ate a radioactive spider",
                 "He is a radioactive spider", "One of his parents was a spider", 0);
@@ -86,7 +88,7 @@ public class TopicRepository {
         Topics.add(marvel);
     }
 
-    public Question createQuestion(String question, String a1, String a2, String a3, String a4, int correct) {
+    private Question createQuestion(String question, String a1, String a2, String a3, String a4, int correct) {
         Question newQ = new Question();
         newQ.setQuestion(question);
         List<String> answers = new ArrayList<String>();
