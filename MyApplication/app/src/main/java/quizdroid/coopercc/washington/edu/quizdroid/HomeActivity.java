@@ -3,6 +3,8 @@ package quizdroid.coopercc.washington.edu.quizdroid;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.*;
 import android.view.View;
@@ -18,6 +20,7 @@ public class HomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         QuizApp app = (QuizApp)this.getApplication();
         List<Topic> topics = app.getRepository().getTopics();
