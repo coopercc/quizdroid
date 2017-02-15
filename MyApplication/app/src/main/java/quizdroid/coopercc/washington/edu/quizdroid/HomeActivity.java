@@ -21,41 +21,47 @@ import java.util.List;
 public class HomeActivity extends Activity {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private TopicRepository repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        if (Build.VERSION.SDK_INT >= 23)
-        {
-            if (checkPermission())
-            {
-                // Code for above or equal 23 API Oriented Device
-                // Your Permission granted already .Do next code
-                /*
-                    Get json from method + send to repo
-                 */
+        QuizApp app = (QuizApp)this.getApplication();
+        repo = app.getRepository();
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkPermission()) {
+                if (repo.getTopics().size() == 0) {
+                    repo.getJson();
+                    fillList();
+                }
             } else {
                 requestPermission(); // Code for permission
             }
         }
-        else
-        {
+        else {
+            if (repo.getTopics().size() == 0) {
+                repo.getJson();
+                fillList();
+            }
+        }
 
-            // Code for Below 23 API Oriented Device
-            // Do next code
-            /*
-                Call get json method
-             */
-
+        if (repo.getTopics().size() > 0) {
+            fillList();
         }
 
 
 
 
-        QuizApp app = (QuizApp)this.getApplication();
-        List<Topic> topics = app.getRepository().getTopics();
+
+
+
+    }
+
+    private void fillList() {
+        List<Topic> topics = repo.getTopics();
         final String[] topicTitles = new String[topics.size()];
         for (int i = 0; i < topics.size(); i++) {
             String title = topics.get(i).getTitle();
@@ -76,7 +82,6 @@ public class HomeActivity extends Activity {
                 startActivity(intent);
             }
         });
-
     }
 
     private boolean checkPermission() {

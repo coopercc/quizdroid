@@ -30,6 +30,15 @@ public class TopicRepository {
     public TopicRepository() {
         //initialize all of the topics
         //site: coopercain.net/questions.json. Also on my desktop
+
+        /*
+        initializeMath();
+        initializeScience();
+        initializeMarvel();
+        */
+    }
+
+    public void getJson() {
         String json = null;
         try {
 
@@ -72,18 +81,28 @@ public class TopicRepository {
                 List<Question> newQs = new ArrayList<Question>();
                 for (int j = 0; j < questions.length(); j++) {
                     //DO WORK HERE
+                    JSONObject questionObj = questions.getJSONObject(j);
+
+                    Question newQ = new Question();
+                    String qTitle = questionObj.getString("question");
+                    int correctAns = questionObj.getInt("answer");
+                    List<String> answers = new ArrayList<String>();
+                    JSONArray ansArr = questionObj.getJSONArray("answers");
+                    for (int k = 0; k < ansArr.length(); k++) {
+                        answers.add(ansArr.getString(k));
+                    }
+                    newQ.setQuestion(qTitle);
+                    newQ.setCorrectAnswer(correctAns);
+                    newQ.setAnswers(answers);
+                    newQs.add(newQ);
                 }
                 newTopic.setQuestions(newQs);
+                Topics.add(newTopic);
 
             } catch(JSONException e) {
                 e.printStackTrace();
             }
         }
-
-        initializeMath();
-        initializeScience();
-        initializeMarvel();
-
     }
 
     //Initializes the math topic with 4 questions
