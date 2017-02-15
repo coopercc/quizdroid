@@ -1,5 +1,17 @@
 package quizdroid.coopercc.washington.edu.quizdroid;
 
+import android.os.Environment;
+import android.util.JsonReader;
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +26,64 @@ public class TopicRepository {
         return Topics;
     }
 
+    //need to change to read from the json file
     public TopicRepository() {
         //initialize all of the topics
+        //site: coopercain.net/questions.json. Also on my desktop
+        String json = null;
+        try {
 
+            String uri = Environment.getExternalStorageDirectory().toString();
+            File file = new File(uri, "/Android/data/questions.json");
+
+            InputStream is = new FileInputStream(file);
+
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        Log.i("TopicRepo", json);
+
+        JSONArray dataArr = null;
+        try {
+            dataArr = new JSONArray(json);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        Log.i("TopicRepo", dataArr.toString());
+
+        //Now to parse a json array!!!!!!!
+        for (int i = 0; i < dataArr.length(); i++) {
+            try {
+                JSONObject topic = dataArr.getJSONObject(i);
+                Topic newTopic = new Topic();
+                String title = topic.getString("title");
+                String desc = topic.getString("desc");
+                newTopic.setTitle(title);
+                newTopic.setDesc(desc);
+
+                JSONArray questions = topic.getJSONArray("questions");
+                //loop through the questions
+                List<Question> newQs = new ArrayList<Question>();
+                for (int j = 0; j < questions.length(); j++) {
+                    //DO WORK HERE
+                }
+                newTopic.setQuestions(newQs);
+
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         initializeMath();
         initializeScience();
         initializeMarvel();
+
     }
 
     //Initializes the math topic with 4 questions
@@ -100,5 +163,7 @@ public class TopicRepository {
         newQ.setCorrectAnswer(correct);
         return newQ;
     }
+
+
 
 }
