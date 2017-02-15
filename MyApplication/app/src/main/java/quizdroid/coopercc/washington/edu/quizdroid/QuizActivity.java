@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.List;
 
@@ -11,6 +13,25 @@ public class QuizActivity extends Activity {
 
     String qCount = "There are 4 questions in this quiz.";
     public static Topic topic;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.quiz_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_preferences) {
+            Intent intent = new Intent(QuizActivity.this, PrefsActivity.class);
+
+            startActivity(intent);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

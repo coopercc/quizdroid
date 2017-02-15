@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.*;
 import android.view.View;
@@ -24,6 +26,25 @@ public class HomeActivity extends Activity {
     private TopicRepository repo;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_preferences) {
+            Intent intent = new Intent(HomeActivity.this, PrefsActivity.class);
+
+            startActivity(intent);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
@@ -33,15 +54,21 @@ public class HomeActivity extends Activity {
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkPermission()) {
+                Log.i("Permissions", "Has Permission");
+
                 if (repo.getTopics().size() == 0) {
+                    Log.i("Permissions", "Initializing topics");
                     repo.getJson();
                     fillList();
                 }
             } else {
-                requestPermission(); // Code for permission
+                Log.i("Permissions", "Getting Permission");
+                requestPermission();
+                // Code for permission
             }
         }
         else {
+            Log.i("Permissions", "doesn't need");
             if (repo.getTopics().size() == 0) {
                 repo.getJson();
                 fillList();
@@ -51,12 +78,6 @@ public class HomeActivity extends Activity {
         if (repo.getTopics().size() > 0) {
             fillList();
         }
-
-
-
-
-
-
 
     }
 
@@ -108,6 +129,8 @@ public class HomeActivity extends Activity {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.e("value", "Permission Granted, Now you can use local drive .");
+                    repo.getJson();
+                    fillList();
                 } else {
                     Log.e("value", "Permission Denied, You cannot use local drive .");
                 }

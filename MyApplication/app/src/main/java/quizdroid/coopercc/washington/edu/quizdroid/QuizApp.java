@@ -9,14 +9,19 @@ import android.util.Log;
 
 public class QuizApp extends Application {
 
-    private TopicRepository instance = new TopicRepository();
+    private TopicRepository instance;
+    private PrefsManager prefs;
 
     public TopicRepository getRepository() {
         return instance;
     }
 
+    public PrefsManager getPrefs() { return prefs; }
+
     @Override
     public void onCreate() {
+        instance = new TopicRepository();
+        prefs = new PrefsManager();
         Log.i("QuizApp", "QuizApp onCreate has fired");
     }
 }
