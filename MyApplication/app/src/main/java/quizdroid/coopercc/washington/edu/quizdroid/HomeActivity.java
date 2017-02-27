@@ -2,10 +2,16 @@ package quizdroid.coopercc.washington.edu.quizdroid;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -24,6 +30,7 @@ public class HomeActivity extends Activity {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private TopicRepository repo;
+    static boolean isAirplaneEnabled;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,6 +58,51 @@ public class HomeActivity extends Activity {
 
         QuizApp app = (QuizApp)this.getApplication();
         repo = app.getRepository();
+
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        isAirplaneEnabled = Settings.System.getInt(getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) == 1;
+        if (!isConnected && isAirplaneEnabled) {
+            Log.i("TAG", "No connection currently");
+            // To-do: send to prefs to change
+            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+
+            dlgAlert.setMessage("This application requires an internet connection :( \n" +
+                    "Would you like to turn Airplane Mode off so that you can use the application?");
+            dlgAlert.setTitle("Airplane Mode On");
+            dlgAlert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // go to Prefs
+                    startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                }
+            });
+            dlgAlert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            dlgAlert.setCancelable(false);
+            dlgAlert.create().show();
+        } else if (!isConnected && !isAirplaneEnabled) {
+            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+
+            dlgAlert.setMessage("This application requires an internet connection :( \n" +
+                    "You can try again later once you have a connection!");
+            dlgAlert.setTitle("No Connection");
+            dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            dlgAlert.setCancelable(false);
+            dlgAlert.create().show();
+        }
+
+
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkPermission()) {
